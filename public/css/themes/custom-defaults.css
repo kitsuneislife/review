@@ -16,15 +16,17 @@
     width: 400px;
     height: 324px;
     margin-top: 0px;
-    margin-left: 0px
+    margin-left: 0px;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 }
 
 .section-2k25-star-5 {
     position: absolute;
     width: 280px;
     height: auto;
-    margin-top: 20px;
+    margin-top: 40px;
     margin-left: -20px;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 }
 
 @keyframes rotate {
@@ -40,7 +42,9 @@
     position: absolute;
     width: 224px;
     height: 224px;
+    margin-top: 80px;
     margin-left: 120px;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
     animation: rotate 10s linear infinite;
 }
 
@@ -50,6 +54,18 @@
     height: 320px;
     margin-top: -30px;
     margin-left: 215px;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    z-index: 1;
+}
+
+.section-2k25-tate-2 {
+    position: absolute;
+    width: auto;
+    height: 320px;
+    margin-top: -30px;
+    margin-left: 380px;
+    transform: scaleX(-1);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
     z-index: 1;
 }
 
@@ -60,22 +76,81 @@
     margin-top: 140px;
     margin-left: -90px;
     transform: rotate(-5deg);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
     z-index: 1;
 }
 
-.section-2k25-gramophone {
+.section-2k25-chess {
     position: absolute;
-    width: 240px;
-    height: auto;
-    margin-top: -40px;
-    margin-left: 380px;
-    transform: scaleX(-1);
+    width: 400px;
+    margin-top: -16px;
+    margin-left: 319px;
+    border-radius: 4px;
     z-index: 0;
+    mask-image: linear-gradient(to top, transparent 25%, black 100%);
+    -webkit-mask-image: linear-gradient(to top, transparent 25%, black 100%);
+}
+
+
+@keyframes float {
+    0% {
+        transform: translateX(-1px) translateY(-10px);
+    }
+    50% {
+        transform: translateX(-1px) translateY(0px);
+    }
+    100% {
+        transform: translateX(-1px) translateY(-10px);
+    }
+}
+
+.section-2k25-chess-pieces-2 {
+    position: absolute;
+    width: 281px;
+    height: auto;
+    margin-top: 0px;
+    margin-left: 360px;
+    z-index: 0;
+    transform: translateY(-1px);
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    animation: float 10s ease-in-out infinite;
+}
+
+@keyframes soft-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(7deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.section-2k25-sparkles {
+    position: absolute;
+    width: 130px;
+    height: auto;
+    margin-left: 590px;
+    margin-top: 20px;
+    z-index: 0;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    animation: soft-rotate 8s ease-in-out infinite;
+}
+
+.section-2k25-pointer {
+    position: absolute;
+    width: 90px;
+    height: auto;
+    margin-left: 600px;
+    margin-top: 200px;
+    z-index: 2;
 }
 
 .section-2k25-more {
     position: absolute;
-    margin-left: 450px;
+    margin-left: 335px;
     margin-top: 230px;
     color: white;
     font-family: 'Panton Black', 'Quicksand', sans-serif;
@@ -84,10 +159,11 @@
     cursor: pointer;
     --text-shadow: #000;
     text-shadow: 
-    -2px -2px 0 black,
-    2px -2px 0 black, 
-    -2px 2px 0 black,
-    2px 2px 0 black;
+    -4px -4px 0 black,
+    4px -4px 0 black, 
+    -4px 4px 0 black,
+    4px 4px 0 black;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
     z-index: 3;
 }
 
