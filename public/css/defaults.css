@@ -1,0 +1,121 @@
+.container,
+.app-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    gap: 15px;
+}
+
+/* aside */
+
+aside,
+.app-aside {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    min-width: 200px;
+    height: auto;
+    border: var(--aside-border);
+    border-radius: 4px;
+}
+
+.aside-header,
+.app-aside-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0px;
+    gap: 10px;
+    border-bottom: 1px dashed #000;
+}
+
+.aside-header-avatar,
+.app-aside-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.aside-header-username,
+.app-aside-username {
+    /* Adicione estilos se necessário */
+}
+
+.aside-menu,
+.app-aside-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.aside-menu-item,
+.app-aside-menu-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+/* */ 
+
+.content,
+.app-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+header,
+.app-header {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    height: var(--header-height);
+    max-height: var(--header-height);
+    border: var(--header-border);
+    border-radius: 4px 4px 0px 0px;
+}
+
+nav,
+.app-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    width: 100%;
+    max-width: 100%;
+    height: 60px;
+    border-left: var(--nav-border);
+    border-right: var(--nav-border);
+    border-bottom: var(--nav-border);
+    border-radius: 0px 0px 4px 4px;
+}
+
+.layout-nav-a,
+.app-nav-link {
+    /* Se quiser estilizar links genéricos, adicione aqui */
+}
+
+main,
+.app-main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 15px;
+    border: var(--main-border);
+    border-radius: 4px;
+}
+
+.app-main-section {
+}
+
+footer,
+.app-footer {
+    /* Adicione estilos genéricos para o footer se necessário */
+}

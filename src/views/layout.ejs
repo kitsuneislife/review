@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="app-html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Reviews</title>
+    <link rel="stylesheet" href="/css/root.css">
+    <link rel="stylesheet" href="/css/defaults.css">
+    <link rel="stylesheet" href="/css/themes/custom-defaults.css">
+    <link rel="stylesheet" href="/css/themes/kitsune.css">
+</head>
+<body class="app-body">
+    <div class="container app-container">
+        <div class="content app-content">
+            <header class="app-header"></header>   
+            <nav class="app-nav">
+                <a class="app-nav-link">Home</a>
+                <a class="app-nav-link">Sobre</a>
+                <a class="app-nav-link">Álbuns</a>
+                <a class="app-nav-link">Ranking</a>
+            </nav>
+            <main class="app-main">
+                <%- body %>
+            </main>
+        </div>
+        <aside class="app-aside">
+            <%- include('partials/aside') %>
+        </aside>
+    </div>
+
+    <footer class="app-footer">
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

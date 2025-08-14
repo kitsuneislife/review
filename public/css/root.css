@@ -1,0 +1,38 @@
+
+@font-face {
+    font-family: 'Quicksand';
+    src: url('/fonts/quicksand.ttf') format('ttf'),
+}
+
+@font-face {
+    font-family: 'Panton Black';
+    src: url('/fonts/panton-black.otf') format('otf'),
+}
+
+:root, * {
+
+    --container-width: 1000px;
+
+    --aside-border: 1px solid #000;
+
+    --header-height: 220px;
+    --header-border: 1px solid #000;
+
+    --nav-border: 1px solid #000;
+    
+    --main-border: 1px solid #000;
+}
+
+*, html, body {
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}

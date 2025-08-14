@@ -1,0 +1,31 @@
+
+
+.app-nav {
+    gap: 28px;
+}
+
+.app-nav-link{
+    color: white;
+    font-family: 'Panton Black', 'Quicksand', sans-serif;
+    font-size: 24px;
+    transition: all .2s;
+    cursor: pointer;
+    --text-shadow: #000;
+    text-shadow: 
+    -2px -2px 0 black,
+    2px -2px 0 black, 
+    -2px 2px 0 black,
+    2px 2px 0 black;
+}
+
+
+.app-nav-link:hover {
+    transform: rotate(-4deg) scale(1.1);
+    text-shadow: 0 -1px 0 var(--text-shadow), 0 1px 0 var(--text-shadow),
+    1px 0 0 var(--text-shadow), -1px 0 0 var(--text-shadow),
+    -2px 1px 0 var(--text-shadow), -1px 2px 0 var(--text-shadow);
+    filter: drop-shadow(0 0 1px var(--text-shadow))
+    drop-shadow(-1px 1px 0px var(--text-shadow))
+    drop-shadow(0 0 0px var(--text-shadow))
+    drop-shadow(-1px 0 0px var(--text-shadow));
+}
