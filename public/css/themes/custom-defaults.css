@@ -1,7 +1,105 @@
 
+/* */
+
 .section-2k25 {
+    position: relative;
     display: flex;
     flex-direction: row;
-    background-color: #e485ad;
+    background-color: #000;
     padding: 15px;
+    height: 280px;
+    max-height: 300px;
 }
+
+.section-2k25-paper {
+    position: absolute;
+    width: 400px;
+    height: 324px;
+    margin-top: 0px;
+    margin-left: 0px
+}
+
+.section-2k25-star-5 {
+    position: absolute;
+    width: 280px;
+    height: auto;
+    margin-top: 20px;
+    margin-left: -20px;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.section-2k25-cd {
+    position: absolute;
+    width: 224px;
+    height: 224px;
+    margin-left: 120px;
+    animation: rotate 10s linear infinite;
+}
+
+.section-2k25-gaga-2 {
+    position: absolute;
+    width: auto;
+    height: 320px;
+    margin-top: -30px;
+    margin-left: 215px;
+    z-index: 1;
+}
+
+.section-2k25-2025 {
+    position: absolute;
+    width: 360px;
+    height: 130px;
+    margin-top: 140px;
+    margin-left: -90px;
+    transform: rotate(-5deg);
+    z-index: 1;
+}
+
+.section-2k25-gramophone {
+    position: absolute;
+    width: 240px;
+    height: auto;
+    margin-top: -40px;
+    margin-left: 380px;
+    transform: scaleX(-1);
+    z-index: 0;
+}
+
+.section-2k25-more {
+    position: absolute;
+    margin-left: 450px;
+    margin-top: 230px;
+    color: white;
+    font-family: 'Panton Black', 'Quicksand', sans-serif;
+    font-size: 48px;
+    transition: all .2s;
+    cursor: pointer;
+    --text-shadow: #000;
+    text-shadow: 
+    -2px -2px 0 black,
+    2px -2px 0 black, 
+    -2px 2px 0 black,
+    2px 2px 0 black;
+    z-index: 3;
+}
+
+.section-2k25-more:hover {
+    transform: rotate(-4deg) scale(1.1);
+    text-shadow: 0 -1px 0 var(--text-shadow), 0 1px 0 var(--text-shadow),
+    1px 0 0 var(--text-shadow), -1px 0 0 var(--text-shadow),
+    -2px 1px 0 var(--text-shadow), -1px 2px 0 var(--text-shadow);
+    filter: drop-shadow(0 0 1px var(--text-shadow))
+    drop-shadow(-1px 1px 0px var(--text-shadow))
+    drop-shadow(0 0 0px var(--text-shadow))
+    drop-shadow(-1px 0 0px var(--text-shadow));
+}
+
+/* */
