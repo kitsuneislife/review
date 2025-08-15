@@ -63,7 +63,23 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.set('trust proxy', 1);
-app.use(helmet());
+// Helmet com CSP customizado para permitir imagens externas via HTTPS (ex: Spotify CDN, placehold.co)
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      baseUri: ["'self'"],
+      fontSrc: ["'self'", 'https:', 'data:'],
+      // permitir imagens locais, data URIs e recursos HTTPS externos (spotify CDN, placehold, etc.)
+      imgSrc: ["'self'", 'data:', 'https:'],
+      objectSrc: ["'none'"],
+      scriptSrc: ["'self'"],
+      scriptSrcAttr: ["'none'"],
+      styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
+      upgradeInsecureRequests: []
+    }
+  }
+}));
 // const limiter = rateLimit({ ... }); // Descomente se quiser limitar requisições
 // app.use(limiter);
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
@@ -78,37 +94,61 @@ app.use(express.urlencoded({ extended: true }));
 // =========================
 // ROTAS PRINCIPAIS
 // =========================
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   const pageView = req.query.pageView || 'index';
   const isAjax = req.headers['x-requested-with'] === 'XMLHttpRequest';
 
   if (pageView === 'search') {
-    const page = parseInt(req.query.page, 10) || 1;
-    const perPage = parseInt(req.query.perPage, 10) || 5;
-    const total = mockReviews.length;
-    const totalPages = Math.ceil(total / perPage);
-    const start = (page - 1) * perPage;
-    const end = start + perPage;
-    const results = mockReviews.slice(start, end);
+    // If query present, perform server-side search (Spotify) and pass albums/artists to the view
+    const q = (req.query.q || '').trim();
+    const type = (req.query.type || 'album,artist');
+    const limit = Math.min(parseInt(req.query.limit, 10) || 12, 40);
+
+    let albums = [];
+    let artists = [];
+    let tracks = [];
+
+    if (q) {
+      try {
+        // try using server token helper
+        const token = await getSpotifyToken();
+        const params = new URLSearchParams({ q, type, limit: String(limit) });
+        const r = await fetch(`https://api.spotify.com/v1/search?${params.toString()}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        const json = await r.json();
+        albums = (json.albums && json.albums.items) || [];
+        artists = (json.artists && json.artists.items) || [];
+        tracks = (json.tracks && json.tracks.items) || [];
+      } catch (err) {
+        // If token missing or Spotify fails, fallback to empty arrays (error logged by error handler)
+        console.error('Server-side Spotify search failed:', err && err.message);
+        albums = [];
+        artists = [];
+        tracks = [];
+      }
+    }
+
     if (isAjax) {
       return res.render('search', {
-        title: 'Busca de Reviews',
+        title: 'Busca',
         pageView,
-        results,
-        page,
-        perPage,
-        total,
-        totalPages
+        albums,
+        artists,
+        q,
+        type,
+        tracks
       });
     }
+
     return res.render('layout', {
-      title: 'Busca de Reviews',
+      title: 'Busca',
       pageView,
-      results,
-      page,
-      perPage,
-      total,
-      totalPages
+      albums,
+      artists,
+      q,
+      type,
+      tracks
     });
   }
 
@@ -158,6 +198,80 @@ app.get('/reviews/:slug', reviewValidationRules, (req, res, next) => {
 // =========================
 // ERROS E 404
 // =========================
+// =========================
+// Spotify Search API (server-side, Client Credentials)
+// =========================
+const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
+const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+let _spotify_token = null;
+let _spotify_token_expires_at = 0;
+
+async function getSpotifyToken() {
+  if (!_spotify_token || Date.now() >= _spotify_token_expires_at) {
+    if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET) {
+      const err = new Error('Spotify credentials not configured (SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET).');
+      err.status = 500;
+      throw err;
+    }
+    const basic = Buffer.from(`${SPOTIFY_CLIENT_ID}:${SPOTIFY_CLIENT_SECRET}`).toString('base64');
+    const resp = await fetch('https://accounts.spotify.com/api/token', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Basic ${basic}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: 'grant_type=client_credentials'
+    });
+    if (!resp.ok) {
+      const text = await resp.text().catch(() => null);
+      const e = new Error('Failed to obtain Spotify token: ' + resp.status + ' ' + (text || ''));
+      e.status = 502;
+      throw e;
+    }
+    const data = await resp.json();
+    _spotify_token = data.access_token;
+    _spotify_token_expires_at = Date.now() + (data.expires_in - 60) * 1000; // renew 60s early
+  }
+  return _spotify_token;
+}
+
+// Lightweight per-route rate limiter to protect Spotify usage
+const searchLimiter = rateLimit({
+  windowMs: 15 * 1000, // 15s window
+  max: 8, // max 8 requests per 15s per IP
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+app.get('/api/spotify/search', searchLimiter, async (req, res, next) => {
+  try {
+    const q = (req.query.q || '').trim();
+    if (!q) return res.status(400).json({ error: 'missing query parameter q' });
+    const type = (req.query.type || 'album').split(',').map(s => s.trim()).filter(Boolean).join(',');
+    const limit = Math.min(parseInt(req.query.limit, 10) || 10, 40);
+
+    const token = await getSpotifyToken();
+    const params = new URLSearchParams({ q, type, limit: String(limit) });
+    const r = await fetch(`https://api.spotify.com/v1/search?${params.toString()}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (r.status === 401) {
+      // token might have expired; force refresh once
+      _spotify_token = null;
+      const token2 = await getSpotifyToken();
+      const r2 = await fetch(`https://api.spotify.com/v1/search?${params.toString()}`, {
+        headers: { Authorization: `Bearer ${token2}` }
+      });
+      const json2 = await r2.json();
+      return res.json(json2);
+    }
+    const json = await r.json();
+    return res.json(json);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use((req, res, next) => {
   const error = new Error('Página Não Encontrada');
   error.status = 404;

@@ -2,26 +2,101 @@
 <section class="app-section app-section-search">
     <div class="app-section-filter app-section-search-filter">
         <div class="app-section-filter-row app-section-search-filter-row">
-            <input class="app-input app-section-search-input" type="text" placeholder="Busca...">
-            <select class="app-select app-section-search-select">
-                <option>Todos</option>
-                <option>Artistas</option>
-                <option>Álbuns</option>
-                <option>Faixas</option>
+            <input class="app-input app-section-search-input" type="text" placeholder="Busca..." value="<%= typeof q !== 'undefined' ? q : '' %>">
+            <select class="app-select app-section-search-select" name="type">
+                <option value="album,artist,track" <%= (!type || type.indexOf('track') !== -1 && type.indexOf('album') !== -1) ? 'selected' : '' %>>Todos</option>
+                <option value="artist" <%= (type === 'artist') ? 'selected' : '' %>>Artistas</option>
+                <option value="album" <%= (type === 'album') ? 'selected' : '' %>>Álbuns</option>
+                <option value="track" <%= (type === 'track') ? 'selected' : '' %>>Faixas</option>
             </select>
         </div>
     </div>
     <div class="app-section-results app-section-search-results">
         <div class="app-section-result-row app-section-search-result-row">
-            <div class="app-component app-component-album">
-                <div class="app-component-display">
-                    <img class="app-component-artist-image" src="assets/dev/lola.png">
-                    <div class="app-component-artist-microphone">
-                        <img class="app-component-artist-microphone-image" src="assets/general/microphone.png">
+<% if ((typeof albums !== 'undefined' && albums.length) || (typeof artists !== 'undefined' && artists.length)) { %>
+            <% if (artists && artists.length) { %>
+                <h3 class="app-section-subtitle">Artistas</h3>
+                <% artists.forEach(function(art){ %>
+                        <div class="app-component app-component-album">
+                            <div class="app-component-display">
+                                <% var image = (art.images && art.images[0] && art.images[0].url) || '/assets/general/cat.png'; %>
+                                <img class="app-component-artist-image" src="<%= image %>">
+                                <div class="app-component-artist-microphone">
+                                    <img class="app-component-artist-microphone-image" src="/assets/general/microphone.png">
+                                </div>
+                            </div>
+                            <span class="app-component-album-title"><%= art.name %></span>
+                        </div>
+                <% }); %>
+            <% } %>
+
+            <% if (albums && albums.length) { %>
+                <h3 class="app-section-subtitle">Álbuns</h3>
+                <% albums.forEach(function(alb){ %>
+                        <div class="app-component app-component-album">
+                            <div class="app-component-display">
+                                <% var cover = (alb.images && alb.images[0] && alb.images[0].url) || '/assets/general/cd.png'; %>
+                                <img class="app-component-album-cover" src="<%= cover %>">
+                                <div class="app-component-album-vinyl">
+                                    <img class="app-component-album-vinyl-image" src="/assets/general/vinyl.png">
+                                </div>
+                            </div>
+                            <span class="app-component-album-title"><%= alb.name %></span>
+                            <span class="app-component-album-artist"><%= (alb.artists && alb.artists.map(function(a){ return a.name; }).join(', ')) %></span>
+                        </div>
+                <% }); %>
+            <% } %>
+
+            <% if (tracks && tracks.length) { %>
+                <h3 class="app-section-subtitle">Faixas</h3>
+                <% tracks.forEach(function(tr){ %>
+                        <div class="app-component app-component-track">
+                            <div class="app-component-display">
+                                <% var tImage = (tr.album && tr.album.images && tr.album.images[0] && tr.album.images[0].url) || '/assets/general/cd.png'; %>
+                                <img class="app-component-album-cover" src="<%= tImage %>">
+                            </div>
+                            <span class="app-component-album-title"><%= tr.name %></span>
+                            <span class="app-component-album-artist"><%= (tr.artists && tr.artists.map(function(a){ return a.name; }).join(', ')) %></span>
+                        </div>
+                <% }); %>
+            <% } %>
+        <% } else { %>
+                <!-- Exemplo: Artista -->
+                <div class="app-component app-component-artist">
+                    <div class="app-component-display">
+                        <img class="app-component-artist-image" src="assets/dev/lola.png">
+                        <div class="app-component-artist-microphone">
+                            <img class="app-component-artist-microphone-image" src="assets/general/microphone.png">
+                        </div>
                     </div>
+                    <span class="app-component-album-title">Lola Young</span>
                 </div>
-                <span class="app-component-album-title">Lola Young</span>
-            </div>
+
+                <!-- Exemplo: Álbum -->
+                <div class="app-component app-component-album">
+                    <div class="app-component-display">
+                        <img class="app-component-album-cover" src="assets/dev/virgin.png">
+                        <div class="app-component-album-vinyl">
+                            <img class="app-component-album-vinyl-image" src="assets/general/vinyl.png">
+                        </div>
+                    </div>
+                    <span class="app-component-album-title">Virgin</span>
+                    <span class="app-component-album-artist">Lorde</span>
+                </div>
+
+                <!-- Exemplo: Faixa (track) -->
+                <div class="app-component app-component-track">
+                    <div class="app-component-display">
+                        <img class="app-component-album-cover" src="/assets/dev/dttg.png">
+                        <div class="app-component-track-cassette">
+                            <img class="app-component-track-cassette-image" src="/assets/general/casette.png">
+                        </div>
+                    </div>
+                    <span class="app-component-album-title">Drive To The Gate</span>
+                    <span class="app-component-album-artist">Sample Artist</span>
+                </div>
+
+            <span class="app-section-no-result">Nenhum resultado encontrado</span>
+        <% } %>
         </div>
-        <span class="app-section-no-result">Nenhum resultado encontrado</span>
 </section>

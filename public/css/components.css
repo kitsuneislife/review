@@ -1,11 +1,13 @@
 /* Components */
 
-.app-component-album-supershadow {
-    --component-album-supershadow-outline: #FFF;
-    --component-album-supershadow-color: #FFF;
-    text-shadow: var(--component-album-supershadow-outline), -2px 4px var(--component-album-supershadow-color);
-    filter: drop-shadow(0 0 1px var(--component-album-supershadow-color)) 
-          drop-shadow(-3px 3px var(--component-album-supershadow-color));
+.app-component-supershadow,
+.app-component-album-supershadow,
+.app-component-display.app-component-supershadow {
+    --component-supershadow-outline: #FFF;
+    --component-supershadow-color: #FFF;
+    text-shadow: var(--component-supershadow-outline), -2px 4px var(--component-supershadow-color);
+    filter: drop-shadow(0 0 1px var(--component-supershadow-color)) 
+          drop-shadow(-3px 3px var(--component-supershadow-color));
 }
 
 .app-component-album {
@@ -16,6 +18,16 @@
     align-items: center;
     cursor: pointer;
     transition: all .2s ease-in-out;
+    margin-bottom: 10px;
+}
+
+/* tamanho padrão para os components, ajuda a formar 4 por linha */
+.app-component {
+    width: 180px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .app-component-display {
@@ -29,8 +41,8 @@
 }
 
 .app-component-album-cover {
-    width: 125px;
-    height: 125px;
+    width: 140px;
+    height: 140px;
     border-radius: 4px;
     transition: all .2s ease-in-out;
     z-index: 1;
@@ -107,7 +119,11 @@
     white-space: nowrap;
 }
 
-.app-component-album:hover .app-component-album-title {
+.app-component-artist:hover .app-component-album-title,
+.app-component-album:hover .app-component-album-title,
+.app-component-track:hover .app-component-album-title {
+    color: var(--default-yellow);
+    transform: scale(1.05);
     text-decoration: underline wavy;
 }
 
@@ -118,13 +134,18 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-bottom: 10px;
+}
+
+.app-component-album:hover .app-component-album-artist {
+    transform: scale(1.05);
 }
 
 /* */
 
 .app-component-artist-image {
-    width: 125px;
-    height: 125px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     transition: all .2s ease-in-out;
     z-index: 1;
@@ -187,4 +208,71 @@
 
 .app-component-album:not(:hover) .app-component-artist-microphone {
     animation: micOff 0.2s linear forwards;
+}
+
+/* */
+
+.app-component-track {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+    margin-bottom: 10px;
+}
+
+.app-component-track .app-component-album-cover {
+    /* reutiliza o mesmo tamanho da capa do álbum */
+    width: 140px;
+    height: 140px;
+    border-radius: 4px;
+    transition: all .2s ease-in-out;
+    z-index: 1;
+}
+
+.app-component-track-cassette {
+    position: absolute;
+    width: 100px;
+    height: auto;
+    margin-left: 90px;
+    transition: all .2s ease-in-out;
+    z-index: 0;
+}
+
+.app-component-track-cassette-image {
+    width: 100px;
+    height: 60px;
+    animation: cassetteRotate 5s linear infinite;
+}
+
+@keyframes cassetteOn {
+    0% { transform: translateX(0); z-index: 0; }
+    50% { transform: translateX(20px); z-index: 1; }
+    100% { transform: translateX(0) translateY(20px); z-index: 1; }
+}
+
+@keyframes cassetteOff {
+    0% { transform: translateX(0) translateY(20px); z-index: 1; }
+    50% { transform: translateX(20px); z-index: 0; }
+    100% { transform: translateX(0); z-index: 0; }
+}
+
+@keyframes cassetteRotate {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.app-component-track:hover .app-component-album-cover {
+    transform: rotate(-4deg);
+}
+
+.app-component-track:hover .app-component-track-cassette {
+    animation: cassetteOn 0.2s linear forwards;
+}
+
+.app-component-track:not(:hover) .app-component-track-cassette {
+    animation: cassetteOff 0.2s linear forwards;
 }
