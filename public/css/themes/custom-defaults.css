@@ -1,6 +1,6 @@
-/* */ 
+/* app section footer */
 
-.section-footer {
+.app-section-footer {
     position: sticky;
     display: flex;
     flex-direction: row;
@@ -12,38 +12,35 @@
     z-index: 10;
 }
 
-.section-footer-title {
+.app-section-footer-title {
     font-family: 'Fira Code', monospace;
     font-size: 18px;
     color: var(--default-yellow);
-    text-decoration: underline wavy
+    text-decoration: underline wavy;
 }
 
-.section-footer-link {
+.app-section-footer-link {
     font-family: 'Fira Code', monospace;
     font-size: 16px;
     color: var(--default-yellow);
     text-decoration: underline;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all .2s ease-in
+    transition: all .2s ease-in;
 }
 
-.section-footer-link:hover {
+.app-section-footer-link:hover {
     background-color: var(--default-yellow);
     color: var(--default-background-color);
 }
 
-
-/* */
-
-.section-latest {
+.app-section-latest {
     display: flex;
     flex-direction: row;
     padding: 25px 30px;
 }
 
-.section-latest-row {
+.app-section-latest-row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -53,7 +50,7 @@
 
 /* */
 
-.section-2k25 {
+.app-section-2k25 {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -62,8 +59,7 @@
     height: 280px;
     max-height: 300px;
 }
-
-.section-2k25-paper {
+.app-section-2k25-paper {
     position: absolute;
     width: 400px;
     height: 324px;
@@ -71,8 +67,7 @@
     margin-left: 0px;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 }
-
-.section-2k25-star-5 {
+.app-section-2k25-star-5 {
     position: absolute;
     width: 280px;
     height: auto;
@@ -90,7 +85,7 @@
     }
 }
 
-.section-2k25-cd {
+.app-section-2k25-cd {
     position: absolute;
     width: 224px;
     height: 224px;
@@ -100,7 +95,7 @@
     animation: rotate 10s linear infinite;
 }
 
-.section-2k25-gaga-2 {
+.app-section-2k25-gaga-2 {
     position: absolute;
     width: auto;
     height: 320px;
@@ -110,7 +105,7 @@
     z-index: 1;
 }
 
-.section-2k25-tate-2 {
+.app-section-2k25-tate-2 {
     position: absolute;
     width: auto;
     height: 320px;
@@ -121,7 +116,7 @@
     z-index: 1;
 }
 
-.section-2k25-2025 {
+.app-section-2k25-2025 {
     position: absolute;
     width: 360px;
     height: 130px;
@@ -132,7 +127,7 @@
     z-index: 1;
 }
 
-.section-2k25-chess {
+.app-section-2k25-chess {
     position: absolute;
     width: 400px;
     margin-top: -15px;
@@ -156,7 +151,7 @@
     }
 }
 
-.section-2k25-chess-pieces-2 {
+.app-section-2k25-chess-pieces-2 {
     position: absolute;
     width: 281px;
     height: auto;
@@ -180,7 +175,7 @@
     }
 }
 
-.section-2k25-sparkles {
+.app-section-2k25-sparkles {
     position: absolute;
     width: 130px;
     height: auto;
@@ -191,7 +186,7 @@
     animation: soft-rotate 8s ease-in-out infinite;
 }
 
-.section-2k25-pointer {
+.app-section-2k25-pointer {
     position: absolute;
     width: 90px;
     height: auto;

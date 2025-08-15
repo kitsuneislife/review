@@ -1,6 +1,6 @@
 /* Components */
 
-.component-album-supershadow {
+.app-component-album-supershadow {
     --component-album-supershadow-outline: #FFF;
     --component-album-supershadow-color: #FFF;
     text-shadow: var(--component-album-supershadow-outline), -2px 4px var(--component-album-supershadow-color);
@@ -8,7 +8,7 @@
           drop-shadow(-3px 3px var(--component-album-supershadow-color));
 }
 
-.component-album-container {
+.app-component-album {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -18,7 +18,7 @@
     transition: all .2s ease-in-out;
 }
 
-.component-album-display {
+.app-component-display {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -28,7 +28,7 @@
     transition: all .2s ease-in-out;
 }
 
-.component-album-cover {
+.app-component-album-cover {
     width: 125px;
     height: 125px;
     border-radius: 4px;
@@ -36,7 +36,7 @@
     z-index: 1;
 }
 
-.component-album-vinyl {
+.app-component-album-vinyl {
     position: absolute;
     width: 100px;
     height: 100px;
@@ -45,7 +45,7 @@
     z-index: 0;
 }
 
-.component-album-vinyl-image {
+.app-component-album-vinyl-image {
     width: 100px;
     height: 100px;
     animation: rotate 5s ease-in-out infinite;
@@ -83,19 +83,19 @@
     }
 }
 
-.component-album-container:hover .component-album-cover {
+.app-component-album:hover .app-component-album-cover {
     transform: rotate(-4deg);
 }
 
-.component-album-container:hover .component-album-vinyl {
-  animation: vinylOn 0.2s linear forwards;  
+.app-component-album:hover .app-component-album-vinyl {
+    animation: vinylOn 0.2s linear forwards;  
 }
 
-.component-album-container:not(:hover) .component-album-vinyl {
-  animation: vinylOff 0.2s linear forwards;
+.app-component-album:not(:hover) .app-component-album-vinyl {
+    animation: vinylOff 0.2s linear forwards;
 }
 
-.component-album-title {
+.app-component-album-title {
     margin-top: 8px;
     font-family: 'Quicksand', sans-serif;
     font-weight: bold;
@@ -107,11 +107,11 @@
     white-space: nowrap;
 }
 
-.component-album-container:hover .component-album-title {
+.app-component-album:hover .app-component-album-title {
     text-decoration: underline wavy;
 }
 
-.component-album-artist {
+.app-component-album-artist {
     margin-top: 4px;
     font-size: 12px;
     max-width: 150px; 
@@ -122,7 +122,7 @@
 
 /* */
 
-.component-artist-image {
+.app-component-artist-image {
     width: 125px;
     height: 125px;
     border-radius: 50%;
@@ -130,7 +130,7 @@
     z-index: 1;
 }
 
-.component-artist-microphone {
+.app-component-artist-microphone {
     position: absolute;
     width: 100px;
     height: auto;
@@ -139,7 +139,7 @@
     z-index: 0;
 }
 
-.component-artist-microphone-image {
+.app-component-artist-microphone-image {
     width: 90px;
     height: 90px;
     transform: scaleX(-1) rotate(30deg);
@@ -177,14 +177,14 @@
     }
 }
 
-.component-album-container:hover .component-artist-image {
-    transform: rotate(-4deg);
+.app-component-album:hover .app-component-artist-image {
+        transform: rotate(-4deg);
 }
 
-.component-album-container:hover .component-artist-microphone {
-  animation: micOn 0.2s linear forwards;  
+.app-component-album:hover .app-component-artist-microphone {
+    animation: micOn 0.2s linear forwards;  
 }
 
-.component-album-container:not(:hover) .component-artist-microphone {
-  animation: micOff 0.2s linear forwards;
+.app-component-album:not(:hover) .app-component-artist-microphone {
+    animation: micOff 0.2s linear forwards;
 }
