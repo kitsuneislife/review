@@ -119,3 +119,72 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+/* */
+
+.component-artist-image {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    transition: all .2s ease-in-out;
+    z-index: 1;
+}
+
+.component-artist-microphone {
+    position: absolute;
+    width: 100px;
+    height: auto;
+    margin-left: 90px;
+    transition: all .2s ease-in-out;
+    z-index: 0;
+}
+
+.component-artist-microphone-image {
+    width: 90px;
+    height: 90px;
+    transform: scaleX(-1) rotate(30deg);
+}
+
+@keyframes micOn {
+    0% {
+        transform: translateX(0);
+        z-index: 0;
+    }
+    50% {
+        transform: translateX(30px); 
+        z-index: 1; 
+    }
+    100% {
+        transform: translateX(10px);
+        transform: translateY(10px);
+        z-index: 1;
+    }
+}
+
+@keyframes micOff{
+    0% {
+        transform: translateX(0);
+        transform: translateY(20px);
+        z-index: 1;
+    }
+    50% {
+        transform: translateX(20px); 
+        z-index: 0; 
+    }
+    100% {
+        transform: translateX(0);
+        z-index: 0;
+    }
+}
+
+.component-album-container:hover .component-artist-image {
+    transform: rotate(-4deg);
+}
+
+.component-album-container:hover .component-artist-microphone {
+  animation: micOn 0.2s linear forwards;  
+}
+
+.component-album-container:not(:hover) .component-artist-microphone {
+  animation: micOff 0.2s linear forwards;
+}

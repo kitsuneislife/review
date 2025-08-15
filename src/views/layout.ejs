@@ -7,21 +7,73 @@
     <link rel="stylesheet" href="/css/root.css">
     <link rel="stylesheet" href="/css/defaults.css">
     <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/themes/custom-defaults.css">
     <link rel="stylesheet" href="/css/themes/kitsune.css">
 </head>
 <body class="app-body">
     <div class="container app-container">
         <div class="content app-content">
-            <header class="app-header"></header>   
+            <header class="app-header">
+            </header>   
             <nav class="app-nav">
-                <a class="app-nav-link">Home</a>
-                <a class="app-nav-link">Sobre</a>
-                <a class="app-nav-link">Álbuns</a>
-                <a class="app-nav-link">Ranking</a>
+                <a class="app-nav-link" href="/?pageView=index">Home</a>
+                <a class="app-nav-link" href="/?pageView=sobre">Sobre</a>
+                <a class="app-nav-link" href="/?pageView=search">Busca</a>
+                <a class="app-nav-link" href="/?pageView=albuns">Álbuns</a>
+                <a class="app-nav-link" href="/?pageView=ranking">Ranking</a>
             </nav>
+            <div class="app-navline">
+                <% 
+                var _pageView = typeof pageView !== 'undefined' ? pageView : 'index';
+                var _artistaNome = typeof artistaNome !== 'undefined' ? artistaNome : null;
+                var _albumNome = typeof albumNome !== 'undefined' ? albumNome : null;
+                var _page = typeof page !== 'undefined' ? page : null;
+
+                function getBreadcrumb(pageView, opts = {}) {
+                    let bc = [];
+                    switch (pageView) {
+                        case 'index':
+                            bc = ['Home'];
+                            break;
+                        case 'search':
+                            bc = ['Home', 'Busca'];
+                            break;
+                        case 'albuns':
+                            bc = ['Home', 'Álbuns'];
+                            if (opts.albumNome) bc.push(opts.albumNome);
+                            break;
+                        case 'ranking':
+                            bc = ['Home', 'Ranking'];
+                            break;
+                        case 'sobre':
+                            bc = ['Home', 'Sobre'];
+                            break;
+                        case 'artista':
+                            bc = ['Home', 'Artistas'];
+                            if (opts.artistaNome) bc.push(opts.artistaNome);
+                            break;
+                        default:
+                            bc = ['Home', pageView.charAt(0).toUpperCase() + pageView.slice(1)];
+                    }
+                    if (opts.page && opts.page > 1) {
+                        bc.push('Página ' + opts.page);
+                    }
+                    return bc;
+                }
+                const breadcrumb = getBreadcrumb(_pageView, { artistaNome: _artistaNome, albumNome: _albumNome, page: _page });
+                %>
+                <% breadcrumb.forEach(function(item, idx) { %>
+                    <span class="app-navline-index <%= idx === breadcrumb.length-1 ? 'active' : '' %>"><%= idx === breadcrumb.length-1 ? '► ' : '' %><%= item %></span>
+                    <% if (idx < breadcrumb.length-1) { %> / <% } %>
+                <% }); %>
+            </div>
             <main class="app-main">
-                <%- body %>
+                <% if (typeof pageView !== 'undefined' && pageView === 'search') { %>
+                    <%- include('search', locals) %>
+                <% } else { %>
+                    <%- include('index', locals) %>
+                <% } %>
             </main>
         </div>
         <aside class="app-aside">

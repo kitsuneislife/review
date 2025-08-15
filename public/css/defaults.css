@@ -92,6 +92,47 @@ header,
     border-radius: 4px 4px 0px 0px;
 }
 
+.app-navline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    max-width: var(--container-width);
+    background: var(--default-background-color);
+    border-left: 1px solid var(--default-border-color);
+    border-right: 1px solid var(--default-border-color);
+    border-bottom: 1px solid var(--default-border-color);
+    border-radius: 0px 0px 4px 4px;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.app-navline-index {
+    font-family: 'Fira Code', monospace;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: var(--default-yellow);
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 2px;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: all .2s ease-in-out;
+}
+
+.app-navline-index:hover {
+    text-decoration: underline;
+}
+
+.app-navline-index.active {
+    background-color: var(--default-yellow);
+    color: var(--default-background-color);
+}
+
 nav,
 .app-nav {
     display: flex;
@@ -105,8 +146,7 @@ nav,
     height: 60px;
     border-left: var(--nav-border);
     border-right: var(--nav-border);
-    border-bottom: var(--nav-border);
-    border-radius: 0px 0px 4px 4px;
+    border-bottom: 1px dashed var(--default-border-color);
 }
 
 .layout-nav-a,

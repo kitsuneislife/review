@@ -1,15 +1,20 @@
 
+// =========================
+// IMPORTS E CONFIGS INICIAIS
+// =========================
 const express = require('express');
 const path = require('path');
 const http = require('http');
 require('dotenv').config();
-
 const morgan = require('morgan');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { param, validationResult } = require('express-validator');
 const expressLayouts = require('express-ejs-layouts');
 
+// =========================
+// MOCK DE DADOS
+// =========================
 const mockReviews = [
   {
     slug: 'daft-punk-ram',
@@ -26,7 +31,7 @@ const mockReviews = [
     custom_html_head: '',
     publicado_em: new Date('2023-05-20T18:00:00Z'),
     album_titulo: 'Random Access Memories',
-    capa_url: '/images/ram-cover.jpg', // Usando uma imagem local
+    capa_url: '/images/ram-cover.jpg',
     ano_lancamento: 2013,
     artista_nome: 'Daft Punk',
   },
@@ -50,70 +55,109 @@ const mockReviews = [
     artista_nome: 'Fleetwood Mac',
   }
 ];
-// --- FIM DOS DADOS MOCK ---
 
-
+// =========================
+// APP E MIDDLEWARES
+// =========================
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.set('trust proxy', 1);
 app.use(helmet());
-
-/*const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000,
-	max: 100,
-	standardHeaders: true,
-	legacyHeaders: false,
-    message: 'Muitas requisições deste IP, por favor tente novamente em 15 minutos.',
-});
-
-app.use(limiter);*/
+// const limiter = rateLimit({ ... }); // Descomente se quiser limitar requisições
+// app.use(limiter);
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-
 app.use(expressLayouts);
 app.set('layout', 'layout');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// =========================
+// ROTAS PRINCIPAIS
+// =========================
 app.get('/', (req, res) => {
-  res.render('index', {
+  const pageView = req.query.pageView || 'index';
+  const isAjax = req.headers['x-requested-with'] === 'XMLHttpRequest';
+
+  if (pageView === 'search') {
+    const page = parseInt(req.query.page, 10) || 1;
+    const perPage = parseInt(req.query.perPage, 10) || 5;
+    const total = mockReviews.length;
+    const totalPages = Math.ceil(total / perPage);
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    const results = mockReviews.slice(start, end);
+    if (isAjax) {
+      return res.render('search', {
+        title: 'Busca de Reviews',
+        pageView,
+        results,
+        page,
+        perPage,
+        total,
+        totalPages
+      });
+    }
+    return res.render('layout', {
+      title: 'Busca de Reviews',
+      pageView,
+      results,
+      page,
+      perPage,
+      total,
+      totalPages
+    });
+  }
+
+  // Outras páginas podem ser tratadas aqui
+  if (isAjax) {
+    return res.render('index', {
+      title: 'Home Page',
+      pageView,
+      reviews: mockReviews
+    });
+  }
+  return res.render('layout', {
     title: 'Home Page',
+    pageView,
     reviews: mockReviews
   });
 });
 
+// =========================
+// ROTAS DE REVIEW
+// =========================
 const reviewValidationRules = [
-    param('slug').trim().isSlug().withMessage('O formato do slug é inválido.').escape()
+  param('slug').trim().isSlug().withMessage('O formato do slug é inválido.').escape()
 ];
 
 app.get('/reviews/:slug', reviewValidationRules, (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-      const error = new Error('Dados de entrada inválidos.');
-      error.status = 400;
-      error.details = errors.array();
-      return next(error);
+    const error = new Error('Dados de entrada inválidos.');
+    error.status = 400;
+    error.details = errors.array();
+    return next(error);
   }
-
   const { slug } = req.params;
   const foundReview = mockReviews.find(review => review.slug === slug);
-
   if (!foundReview) {
     const error = new Error('Review não encontrada');
     error.status = 404;
     return next(error);
   }
-
   res.render('review', {
-      title: foundReview.titulo_review,
-      review: foundReview
-    });
+    title: foundReview.titulo_review,
+    review: foundReview
+  });
 });
 
+// =========================
+// ERROS E 404
+// =========================
 app.use((req, res, next) => {
   const error = new Error('Página Não Encontrada');
   error.status = 404;
@@ -122,11 +166,9 @@ app.use((req, res, next) => {
 
 app.use((error, req, res, next) => {
   const statusCode = error.status || 500;
-
   if (statusCode >= 500) {
-      console.error(`[ERRO ${statusCode}]`, error.stack);
+    console.error(`[ERRO ${statusCode}]`, error.stack);
   }
-
   res.status(statusCode);
   res.render('error', {
     title: `Erro ${statusCode}`,
@@ -135,6 +177,9 @@ app.use((error, req, res, next) => {
   });
 });
 
+// =========================
+// INICIALIZAÇÃO DO SERVIDOR
+// =========================
 const server = http.createServer(app);
 
 server.listen(PORT, () => {

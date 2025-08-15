@@ -1,0 +1,62 @@
+
+.section-search-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.section-search-filter-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-bottom: 1px dashed var(--default-border-color);
+}
+
+.section-search-filter-container-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    gap: 15px;
+}
+
+
+.section-search-input {
+    background-color: var(--default-background-color);
+    border: 1px solid var(--default-border-color);
+    border-radius: 4px;
+    width: -webkit-fill-available;
+    padding: 8px 12px;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    color: var(--default-text-color);
+}
+
+.section-search-select {
+    background-color: var(--default-background-color);
+    border: 1px solid var(--default-border-color);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: var(--default-text-color);
+}
+
+/* */ 
+
+.section-search-result-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 25px;
+}
+
+.section-search-result-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.section-search-no-result {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
