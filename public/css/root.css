@@ -4,6 +4,11 @@
 }
 
 @font-face {
+    font-family: 'Fira Code';
+    src: url('/fonts/firacode.ttf') format('ttf'),
+}
+
+@font-face {
     font-family: 'Panton Black';
     src: url('/fonts/panton-black.otf') format('otf'),
 }
@@ -12,14 +17,20 @@
 
     --container-width: 1000px;
 
-    --aside-border: 1px solid #000;
+    --default-background-color: #000;
+    --default-border-color: #FFF;
+
+    --aside-border: 1px solid #FFF;
 
     --header-height: 220px;
-    --header-border: 1px solid #000;
+    --header-border: 1px solid #FFF;
 
-    --nav-border: 1px solid #000;
+    --nav-border: 1px solid #FFF;
     
-    --main-border: 1px solid #000;
+    --main-border: 1px solid #FFF;
+    --default-red:    rgb(255, 66, 69);
+    --default-orange: rgb(255, 146, 48);
+    --default-yellow: rgb(255, 214, 0);
 }
 
 *, html, body {
@@ -34,6 +45,8 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    background: #222;
+    color: #fff;
 }
 
 img {

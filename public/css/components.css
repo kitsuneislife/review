@@ -1,0 +1,121 @@
+/* Components */
+
+.component-album-supershadow {
+    --component-album-supershadow-outline: #FFF;
+    --component-album-supershadow-color: #FFF;
+    text-shadow: var(--component-album-supershadow-outline), -2px 4px var(--component-album-supershadow-color);
+    filter: drop-shadow(0 0 1px var(--component-album-supershadow-color)) 
+          drop-shadow(-3px 3px var(--component-album-supershadow-color));
+}
+
+.component-album-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.component-album-display {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+.component-album-cover {
+    width: 125px;
+    height: 125px;
+    border-radius: 4px;
+    transition: all .2s ease-in-out;
+    z-index: 1;
+}
+
+.component-album-vinyl {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    margin-left: 90px;
+    transition: all .2s ease-in-out;
+    z-index: 0;
+}
+
+.component-album-vinyl-image {
+    width: 100px;
+    height: 100px;
+    animation: rotate 5s ease-in-out infinite;
+}
+
+@keyframes vinylOn {
+    0% {
+        transform: translateX(0);
+        z-index: 0;
+    }
+    50% {
+        transform: translateX(20px); 
+        z-index: 1; 
+    }
+    100% {
+        transform: translateX(0);
+        transform: translateY(20px);
+        z-index: 1;
+    }
+}
+
+@keyframes vinylOff{
+    0% {
+        transform: translateX(0);
+        transform: translateY(20px);
+        z-index: 1;
+    }
+    50% {
+        transform: translateX(20px); 
+        z-index: 0; 
+    }
+    100% {
+        transform: translateX(0);
+        z-index: 0;
+    }
+}
+
+.component-album-container:hover .component-album-cover {
+    transform: rotate(-4deg);
+}
+
+.component-album-container:hover .component-album-vinyl {
+  animation: vinylOn 0.2s linear forwards;  
+}
+
+.component-album-container:not(:hover) .component-album-vinyl {
+  animation: vinylOff 0.2s linear forwards;
+}
+
+.component-album-title {
+    margin-top: 8px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    transition: all 0.2s;
+    line-height: 24px;
+    max-width: 150px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.component-album-container:hover .component-album-title {
+    text-decoration: underline wavy;
+}
+
+.component-album-artist {
+    margin-top: 4px;
+    font-size: 12px;
+    max-width: 150px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

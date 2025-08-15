@@ -14,6 +14,7 @@ aside,
 .app-aside {
     display: flex;
     flex-direction: column;
+    background: var(--default-background-color);
     width: 250px;
     min-width: 200px;
     height: auto;
@@ -27,9 +28,10 @@ aside,
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background: var(--default-background-color);
     padding: 20px 0px;
     gap: 10px;
-    border-bottom: 1px dashed #000;
+    border-bottom: 1px dashed var(--default-border-color);
 }
 
 .aside-header-avatar,
@@ -58,6 +60,13 @@ aside,
     justify-content: left;
     align-items: center;
     padding: 10px 15px;
+    transition: all .2s ease-in-out;
+}
+
+.app-aside-menu-item:hover {
+    background-color: var(--default-background-color);
+    color: var(--default-yellow);
+    cursor: pointer;
 }
 
 /* */ 
@@ -67,11 +76,14 @@ aside,
     display: flex;
     flex-direction: column;
     flex: 1;
+    width: 100%;
+    max-width: var(--content-width);
 }
 
 header,
 .app-header {
     display: flex;
+    background: var(--default-background-color);
     width: 100%;
     max-width: 100%;
     height: var(--header-height);
@@ -86,6 +98,7 @@ nav,
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    background: var(--default-background-color);
     gap: 25px;
     width: 100%;
     max-width: 100%;
@@ -105,6 +118,7 @@ main,
 .app-main {
     display: flex;
     flex-direction: column;
+    background: var(--default-background-color);
     width: 100%;
     max-width: 100%;
     margin-top: 15px;
