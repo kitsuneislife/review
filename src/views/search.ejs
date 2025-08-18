@@ -13,7 +13,7 @@
     </div>
     <div class="app-section-results app-section-search-results">
         <div class="app-section-result-row app-section-search-result-row">
-<% if ((typeof albums !== 'undefined' && albums.length) || (typeof artists !== 'undefined' && artists.length)) { %>
+<% if ((typeof albums !== 'undefined' && albums.length) || (typeof artists !== 'undefined' && artists.length) || (typeof tracks !== 'undefined' && tracks.length)) { %>
             <% if (artists && artists.length) { %>
                 <h3 class="app-section-subtitle">Artistas</h3>
                 <% artists.forEach(function(art){ %>

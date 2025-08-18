@@ -14,6 +14,7 @@ function renderSearchResults(container, data) {
   container.innerHTML = '';
   const artists = (data && data.artists && data.artists.items) || data.artists || [];
   const albums = (data && data.albums && data.albums.items) || data.albums || [];
+  const tracks = (data && data.tracks && data.tracks.items) || data.tracks || (Array.isArray(data) ? data : []);
 
   if (artists.length) {
     const h = document.createElement('h3');
@@ -98,7 +99,50 @@ function renderSearchResults(container, data) {
     }
   }
 
-  if (!artists.length && !albums.length) {
+  if (tracks.length) {
+    const h = document.createElement('h3');
+    h.className = 'app-section-subtitle';
+    h.textContent = 'Faixas';
+    container.appendChild(h);
+    const chunkSize = 4;
+    for (let i = 0; i < tracks.length; i += chunkSize) {
+      const chunk = tracks.slice(i, i + chunkSize);
+      const row = document.createElement('div');
+      row.className = 'app-section-result-row app-section-search-result-row';
+      chunk.forEach(tr => {
+        const comp = document.createElement('div');
+        comp.className = 'app-component app-component-track';
+        const disp = document.createElement('div');
+        disp.className = 'app-component-display';
+        const imgUrl = (tr.album && tr.album.images && tr.album.images[0] && tr.album.images[0].url) || '/assets/general/cd.png';
+        const img = document.createElement('img');
+        img.className = 'app-component-album-cover';
+        img.src = imgUrl;
+        disp.appendChild(img);
+        const cass = document.createElement('div');
+        cass.className = 'app-component-track-cassette';
+        const cassImg = document.createElement('img');
+        cassImg.className = 'app-component-track-cassette-image';
+        cassImg.src = '/assets/general/casette.png';
+        cass.appendChild(cassImg);
+        disp.appendChild(cass);
+        comp.appendChild(disp);
+        const title = document.createElement('span');
+        title.className = 'app-component-album-title';
+        title.textContent = tr.name;
+        comp.appendChild(title);
+        const artistSpan = document.createElement('span');
+        artistSpan.className = 'app-component-album-artist';
+        const artistsNames = (tr.artists || []).map(a => a.name).join(', ');
+        artistSpan.textContent = artistsNames;
+        comp.appendChild(artistSpan);
+        row.appendChild(comp);
+      });
+      container.appendChild(row);
+    }
+  }
+
+  if (!artists.length && !albums.length && !tracks.length) {
     container.innerHTML = '<span class="app-section-no-result">Nenhum resultado encontrado</span>';
   }
 }
@@ -156,10 +200,17 @@ function bindInteractions() {
       if (!q) { resultsContainer.innerHTML = '<span class="app-section-no-result">Digite para buscar</span>'; return; }
       try {
         resultsContainer.innerHTML = '<span class="app-section-no-result">Buscando...</span>';
-  const typeParam = encodeURIComponent(selectedType || (select && select.value) || 'album,artist');
+  const typeParam = encodeURIComponent(selectedType || (select && select.value) || 'album,artist,track');
   const res = await fetch(`/api/spotify/search?q=${encodeURIComponent(q)}&type=${typeParam}&limit=12`);
   if (!res.ok) throw new Error('search_failed');
   const json = await res.json();
+        // debug: log counts to help diagnosing empty tracks
+        try {
+          const aLen = (json && json.artists && json.artists.items && json.artists.items.length) || (json.artists && json.artists.length) || 0;
+          const alLen = (json && json.albums && json.albums.items && json.albums.items.length) || (json.albums && json.albums.length) || 0;
+          const tLen = (json && json.tracks && json.tracks.items && json.tracks.items.length) || (json.tracks && json.tracks.length) || 0;
+          console.info('search.result.counts', { q, type: typeParam, artists: aLen, albums: alLen, tracks: tLen });
+        } catch (e) { /* ignore */ }
         renderSearchResults(resultsContainer, json);
       } catch (err) {
         console.error('Search error', err);

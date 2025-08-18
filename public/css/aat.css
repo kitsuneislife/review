@@ -1,0 +1,21 @@
+
+.app-track-container {
+    background-color: skyblue;
+}
+
+.app-track-star-container {
+    display: flex;
+    padding: 20px;
+}
+
+.app-track-star-count {
+    font-family: 'Panton Black', sans-serif;
+    font-size: 64px;
+    --supershadow-outline: rgb(28, 28, 30);
+    --supershadow-color: rgb(28, 28, 30);
+    --shadow-thickness-multiplier: 1.2;
+    text-shadow: var(--supershadow-outline), 
+        calc(-2px * var(--shadow-thickness-multiplier)) calc(4px * var(--shadow-thickness-multiplier)) var(--supershadow-color);
+    filter: drop-shadow(0 0 calc(2px * var(--shadow-thickness-multiplier)) var(--supershadow-color)) 
+          drop-shadow(calc(-3px * var(--shadow-thickness-multiplier)) calc(3px * var(--shadow-thickness-multiplier)) var(--supershadow-color));
+}

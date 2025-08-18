@@ -6,8 +6,9 @@
     <title>Music Reviews</title>
     <link rel="stylesheet" href="/css/root.css">
     <link rel="stylesheet" href="/css/defaults.css">
-    <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/search.css">
+    <link rel="stylesheet" href="/css/aat.css">
+    <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/themes/custom-defaults.css">
     <link rel="stylesheet" href="/css/themes/kitsune.css">
 </head>
@@ -72,7 +73,7 @@
                 <% if (typeof pageView !== 'undefined' && pageView === 'search') { %>
                     <%- include('search', locals) %>
                 <% } else { %>
-                    <%- include('index', locals) %>
+                    <%- include('track', locals) %>
                 <% } %>
             </main>
         </div>

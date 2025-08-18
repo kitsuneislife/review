@@ -101,7 +101,7 @@ app.get('/', async (req, res) => {
   if (pageView === 'search') {
     // If query present, perform server-side search (Spotify) and pass albums/artists to the view
     const q = (req.query.q || '').trim();
-    const type = (req.query.type || 'album,artist');
+  const type = (req.query.type || 'album,artist,track');
     const limit = Math.min(parseInt(req.query.limit, 10) || 12, 40);
 
     let albums = [];
@@ -247,7 +247,7 @@ app.get('/api/spotify/search', searchLimiter, async (req, res, next) => {
   try {
     const q = (req.query.q || '').trim();
     if (!q) return res.status(400).json({ error: 'missing query parameter q' });
-    const type = (req.query.type || 'album').split(',').map(s => s.trim()).filter(Boolean).join(',');
+  const type = (req.query.type || 'album,artist,track').split(',').map(s => s.trim()).filter(Boolean).join(',');
     const limit = Math.min(parseInt(req.query.limit, 10) || 10, 40);
 
     const token = await getSpotifyToken();

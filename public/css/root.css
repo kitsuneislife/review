@@ -10,7 +10,12 @@
 
 @font-face {
     font-family: 'Panton Black';
-    src: url('/fonts/panton-black.otf') format('otf'),
+    src: url('/fonts/panton-black.ttf') format('ttf'),
+}
+
+@font-face {
+    font-family: 'Panton Black Italic';
+    src: url('/fonts/panton-black-italic.ttf') format('ttf'),
 }
 
 :root, * {
